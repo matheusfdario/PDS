@@ -2,7 +2,6 @@
 """
 Spyder Editor
 
-Este é um arquivo de script temporário.
 Autor: Matheus Fortunato Dário.
 Criação: 10/08/2023.
 """

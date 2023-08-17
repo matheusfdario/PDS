@@ -3,7 +3,7 @@
 Spyder Editor
 
 Autor: Matheus Fortunato Dário.
-Criação: 10/08/2023.
+Criação: 17/08/2023.
 """
 
 import numpy as np
