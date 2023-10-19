@@ -30,13 +30,13 @@ def eqdif(b, a, x):
                 y[n] += -1*(a[ka]*y[n-ka]) 
     return y
 
-#def dtft(X, n, w=np.linspace(-np.pi,np.pi,):
-#    X=np.zeros(w,dtype=complex)
-#    for k in range(len(W)):
-#        for i in range(len(n)):
-#            X[k] += x[i]*np.exp(-1j*w[k]*n[i])
+def dtft(x, n, w=np.linspace(-np.pi,np.pi,1024)):
+    X=np.zeros(len(w),dtype=complex)
+    for k in range(len(w)):
+        for i in range(len(n)):
+            X[k] += x[i]*np.exp(-1j*w[k]*n[i])
             
-#    return x
+    return x
 
 def dftmtx(N):
     n = np.arange(N).reshape(N,1)
