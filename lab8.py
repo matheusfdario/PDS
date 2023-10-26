@@ -24,21 +24,61 @@ x = np.cos(w2*n)
 plt.figure(1)
 plt.stem(k,x)
 
+X = pds.dft(x)
 
-k2 = np.linspace(-3,3,num=N)
-w =np.linspace(-np.pi,np.pi,N)
-X = pds.dtft(x,n,w)
+
+#k = np.arange(-3,4)
+#k2 = np.linspace(-3,3,num=N)
+#w = np.linspace(-np.pi,np.pi,N)
+
 plt.figure(2)
-plt.plot(k2, np.abs(X)/N)
+plt.stem(k, np.abs(X)/N)
 
 
-#janela
-k = np.arange(19)
-janela = np.zeros(19)
-indice_central = 19//2
-janela[indice_central - 9:indice_central + 10] = 1
-#plt.figure(3)
-#plt.plot(k,janela)
+N = 40
+#criando  o sinal janela
+# Crie um vetor preenchido com zeros
+janela = np.zeros(N, dtype=int)
+k = np.arange(-N/2,N/2)
+# Preencha a parte central do vetor com 1s
+inicio_1s = (N - 19) // 2
+fim_1s = inicio_1s + 20
+
+janela[inicio_1s:fim_1s] = 1
+#plotando a janela
+plt.figure(3)
+plt.stem(k,janela)
+#plotando a dft da janela -> deveria ter uma sinc
+X = pds.dft(janela)
+plt.figure(4)
+plt.plot(k, np.abs(X)/N)
+
+
+#janelando o sinal
+W = janela*x
+X = pds.dft(W)
+#plotando o sinal janelado
+plt.figure(5)
+plt.stem(k, W)
+
+#plotando a dft do sinal janelado
+plt.figure(6)
+plt.plot(k, np.abs(X)/N)
+count = 0
+for i in X:
+    if i != 0:
+        count+=1
+Y = []#np.zeros(count)
+
+for i in range(len(X)):
+    if X[i] != 0:
+        Y.append(X[i])
+N = 20
+k = np.arange(-N/2,N/2)
+X = pds.dft(Y)
+plt.figure(7)
+plt.plot(k, Y)
+
 """
 #com vazamento
 N = 32

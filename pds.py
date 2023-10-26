@@ -5,7 +5,7 @@ Spyder Editor
 Autor: Matheus Fortunato Dário.
 Criação: 10/08/2023.
 """
-
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import lfilter,freqz
@@ -50,5 +50,22 @@ def dft(x):
         for i in range(N):
             #X[k] += x[i]*W[i]**
             X[k] += x[i]*W**(k*i)
-    return X        
+    return X 
+
+def fft(x):
+    N = len(x)
+    
+    if N > 1:
+        X = np.zeros(N, dtype=complex)
+        W = np.exp(-1j*2*np.pi/N)
+        xe = x[:-1:2]
+        xo = x[1::2]
+        Xe = fft(xe)
+        Xo = fft(xo)
+        k = np.arange(N/2, dtype=int)
+        X[k] = Xe[k]+(W**k)*Xo[k]
+        X[k+ round(N/2)] = Xe[k]-(W**k)*Xo[k]
+        return X
+    else:
+        return x
     
