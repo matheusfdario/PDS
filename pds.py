@@ -30,13 +30,19 @@ def eqdif(b, a, x):
                 y[n] += -1*(a[ka]*y[n-ka]) 
     return y
 
+def sinc2(n,wc):
+    x = np.zeros(len(n))
+    x[n!=0] = np.sin(wc*n[n!=0])/(np.pi*n[n!=0])
+    x[n==0] = wc/np.pi
+    return x
+
 def dtft(x, n, w=np.linspace(-np.pi,np.pi,1024)):
     X=np.zeros(len(w),dtype=complex)
     for k in range(len(w)):
         for i in range(len(n)):
             X[k] += x[i]*np.exp(-1j*w[k]*n[i])
             
-    return x
+    return X, w
 
 def dftmtx(N):
     n = np.arange(N).reshape(N,1)
@@ -50,7 +56,7 @@ def dft(x):
         for i in range(N):
             #X[k] += x[i]*W[i]**
             X[k] += x[i]*W**(k*i)
-    return X 
+    return X
 
 def fft(x):
     N = len(x)
@@ -68,4 +74,13 @@ def fft(x):
         return X
     else:
         return x
+
+def multifaixa(A, w, M):
+    h = np.zeros(M+1)
+    m = np.arange(M+1)
+    K = len(A)
+    for k in range(K-1):
+        h+=(A[k]-A[k+1])*sinc2(m-M/2,w[k])
+    h +=A[-1]*sinc2(m-M/2,w[-1])
     
+    return h
