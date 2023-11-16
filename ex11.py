@@ -16,7 +16,8 @@ import pds
 wp = 0.78*np.pi
 ws = 0.7*np.pi
 wc = (wp+ws)/2
-Dw = wp - ws
+
+Dw = 0.08*np.pi
 
 Ap = 0
 As = 0.005
@@ -25,25 +26,25 @@ d = Ap - As
 dp = (10**(As/20)-1)/(10**(As/20)+1)
 ds = 10**(-As/20)
 
-a = -20*np.log10(d)
+a = -20*np.log10(0.005)
 
 M, beta = pds.kaiserord(a,Dw)
 
 m = np.arange(M+1)
-h = (np.sin(0.74*(m-M/2)))/(np.pi*(m-M/2)) - (np.sin(0.25*(m-M/2)))/(np.pi*(m-M/2))
-Hkaiser, w = pds.dtft(h,m,np.linspace(0,np.pi,2048))
+#h = (np.sin(0.74*(m-M/2)))/(np.pi*(m-M/2)) - (np.sin(0.25*(m-M/2)))/(np.pi*(m-M/2))
+#Hkaiser, w = pds.dtft(h,m,np.linspace(0,np.pi,2048))
 
 
 A = [0,1,0]
+w = [0.25*np.pi,0.74*np.pi,np.pi]
+# w = np.arange(1,3)*np.pi/5
 
-#w = np.arange(1,3)*np.pi/5
-
-h = pds.multifaixa(A,w,M)
+h = wndws.kaiser(M+1, beta)*pds.multifaixa(A,w,M)
 H, w = pds.dtft(h,m,np.linspace(0, np.pi, 2048))
 
 fig, ax1  = plt.subplots()
 ax1.grid()
-ax1.plot(w, np.abs(Hkaiser))
+ax1.plot(w, np.abs(H))
 
 ax1.plot([wp,wp],[0,1-dp])
 ax1.plot([0,wp],[1+dp,1+dp])
